@@ -16,6 +16,7 @@ public class Player : Entity
     private CapsuleCollider2D _collider;
     private float _activeJumpForce;
     private bool _onGround;
+    private int _werewolfPercent = 0;
     private void Awake()
     {
         if (Instance == null)
@@ -88,6 +89,10 @@ public class Player : Entity
            Controll.Werewolf.Enable();
    }
 
+    public void AddWerewolfPower()
+    {
+        _werewolfPercent++;
+    }
    void Update()
    {
       _onGround = OnGround(_collider.size.y / 2);
