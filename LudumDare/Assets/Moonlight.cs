@@ -2,28 +2,23 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Testmoon : MonoBehaviour
+public class Moonlight : MonoBehaviour
 {
-    void Start()
-    {
-        
-    }
-
-    void Update()
-    {
-    }
     protected void OnTriggerEnter2D(Collider2D other)
     {
-        if (other.tag == "Player")
+        //БЛЯЯЯЯЯЯЯЯЯЯЯЯЯЯЯЯЯЯЯЯЯЯЯЯЯЯЯЯЯЯЯЯЯЯЯЯЯЯЯЯЯЯ
+        if (other.TryGetComponent(out Player player))
         {
             Debug.Log("Moonlight hits you.");
+            player.SetMoonState(true);
         }
     }
     protected void OnTriggerExit2D(Collider2D other)
     {
-        if (other.tag == "Player")
+        if (other.TryGetComponent(out Player player))
         {
             Debug.Log("The moonlight doesn't fall on you.");
+            player.SetMoonState(false);
         }
     }
 }

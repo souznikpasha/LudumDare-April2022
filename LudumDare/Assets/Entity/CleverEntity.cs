@@ -22,7 +22,7 @@ public class CleverEntity : Entity
     {
         var hit = Physics2D.Raycast(transform.position,  target.transform.position - transform.position , lookDistance, ~ignoreLayer );
         bool see = hit.collider?.transform == target;
-        Debug.DrawLine(transform.position, target.transform.position, see?Color.green:Color.red);
+        Debug.DrawRay(transform.position, target.transform.position - transform.position, see?Color.green:Color.red);
         return see;
     }
 
