@@ -115,6 +115,7 @@ public class Player : Entity
             while (_underMoon)
             {
                 _werewolfPercent++;
+                Debug.Log($"moon power:{_werewolfPercent}");
                 yield return new WaitForSeconds(1);
             }
 
@@ -126,9 +127,11 @@ public class Player : Entity
         _underMoon = underMoon;
         if (_underMoon)
         {
-           
+           Debug.Log("under moon");
             StartCoroutine(MoonAccumulations());
+            return;
         }
+        Debug.Log("in safety");
     }
 
     public void Roar()
