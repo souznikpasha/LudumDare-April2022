@@ -44,6 +44,15 @@ public partial class @Controlls : IInputActionCollection2, IDisposable
                     ""processors"": """",
                     ""interactions"": """",
                     ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""Roar"",
+                    ""type"": ""Button"",
+                    ""id"": ""15e4197f-06d8-4430-9f89-76d9fa3a3d93"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
                 }
             ],
             ""bindings"": [
@@ -90,6 +99,17 @@ public partial class @Controlls : IInputActionCollection2, IDisposable
                     ""action"": ""Jump"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""66a3c39d-8afc-4670-999b-bcbabb724339"",
+                    ""path"": ""<Keyboard>/r"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Roar"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
                 }
             ]
         },
@@ -98,7 +118,7 @@ public partial class @Controlls : IInputActionCollection2, IDisposable
             ""id"": ""3992b079-c541-476d-abf7-54e6ada1c079"",
             ""actions"": [
                 {
-                    ""name"": ""New action"",
+                    ""name"": ""Eat"",
                     ""type"": ""Button"",
                     ""id"": ""9984896a-8fc8-41e2-858f-6b54e3e987db"",
                     ""expectedControlType"": ""Button"",
@@ -111,11 +131,11 @@ public partial class @Controlls : IInputActionCollection2, IDisposable
                 {
                     ""name"": """",
                     ""id"": ""0a498714-229e-4fb7-b9c2-4c491fc76c5d"",
-                    ""path"": """",
+                    ""path"": ""<Keyboard>/e"",
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": """",
-                    ""action"": ""New action"",
+                    ""action"": ""Eat"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
                 }
@@ -134,9 +154,10 @@ public partial class @Controlls : IInputActionCollection2, IDisposable
         m_Human = asset.FindActionMap("Human", throwIfNotFound: true);
         m_Human_Move = m_Human.FindAction("Move", throwIfNotFound: true);
         m_Human_Jump = m_Human.FindAction("Jump", throwIfNotFound: true);
+        m_Human_Roar = m_Human.FindAction("Roar", throwIfNotFound: true);
         // Werewolf
         m_Werewolf = asset.FindActionMap("Werewolf", throwIfNotFound: true);
-        m_Werewolf_Newaction = m_Werewolf.FindAction("New action", throwIfNotFound: true);
+        m_Werewolf_Eat = m_Werewolf.FindAction("Eat", throwIfNotFound: true);
     }
 
     public void Dispose()
@@ -198,12 +219,14 @@ public partial class @Controlls : IInputActionCollection2, IDisposable
     private IHumanActions m_HumanActionsCallbackInterface;
     private readonly InputAction m_Human_Move;
     private readonly InputAction m_Human_Jump;
+    private readonly InputAction m_Human_Roar;
     public struct HumanActions
     {
         private @Controlls m_Wrapper;
         public HumanActions(@Controlls wrapper) { m_Wrapper = wrapper; }
         public InputAction @Move => m_Wrapper.m_Human_Move;
         public InputAction @Jump => m_Wrapper.m_Human_Jump;
+        public InputAction @Roar => m_Wrapper.m_Human_Roar;
         public InputActionMap Get() { return m_Wrapper.m_Human; }
         public void Enable() { Get().Enable(); }
         public void Disable() { Get().Disable(); }
@@ -219,6 +242,9 @@ public partial class @Controlls : IInputActionCollection2, IDisposable
                 @Jump.started -= m_Wrapper.m_HumanActionsCallbackInterface.OnJump;
                 @Jump.performed -= m_Wrapper.m_HumanActionsCallbackInterface.OnJump;
                 @Jump.canceled -= m_Wrapper.m_HumanActionsCallbackInterface.OnJump;
+                @Roar.started -= m_Wrapper.m_HumanActionsCallbackInterface.OnRoar;
+                @Roar.performed -= m_Wrapper.m_HumanActionsCallbackInterface.OnRoar;
+                @Roar.canceled -= m_Wrapper.m_HumanActionsCallbackInterface.OnRoar;
             }
             m_Wrapper.m_HumanActionsCallbackInterface = instance;
             if (instance != null)
@@ -229,6 +255,9 @@ public partial class @Controlls : IInputActionCollection2, IDisposable
                 @Jump.started += instance.OnJump;
                 @Jump.performed += instance.OnJump;
                 @Jump.canceled += instance.OnJump;
+                @Roar.started += instance.OnRoar;
+                @Roar.performed += instance.OnRoar;
+                @Roar.canceled += instance.OnRoar;
             }
         }
     }
@@ -237,12 +266,12 @@ public partial class @Controlls : IInputActionCollection2, IDisposable
     // Werewolf
     private readonly InputActionMap m_Werewolf;
     private IWerewolfActions m_WerewolfActionsCallbackInterface;
-    private readonly InputAction m_Werewolf_Newaction;
+    private readonly InputAction m_Werewolf_Eat;
     public struct WerewolfActions
     {
         private @Controlls m_Wrapper;
         public WerewolfActions(@Controlls wrapper) { m_Wrapper = wrapper; }
-        public InputAction @Newaction => m_Wrapper.m_Werewolf_Newaction;
+        public InputAction @Eat => m_Wrapper.m_Werewolf_Eat;
         public InputActionMap Get() { return m_Wrapper.m_Werewolf; }
         public void Enable() { Get().Enable(); }
         public void Disable() { Get().Disable(); }
@@ -252,16 +281,16 @@ public partial class @Controlls : IInputActionCollection2, IDisposable
         {
             if (m_Wrapper.m_WerewolfActionsCallbackInterface != null)
             {
-                @Newaction.started -= m_Wrapper.m_WerewolfActionsCallbackInterface.OnNewaction;
-                @Newaction.performed -= m_Wrapper.m_WerewolfActionsCallbackInterface.OnNewaction;
-                @Newaction.canceled -= m_Wrapper.m_WerewolfActionsCallbackInterface.OnNewaction;
+                @Eat.started -= m_Wrapper.m_WerewolfActionsCallbackInterface.OnEat;
+                @Eat.performed -= m_Wrapper.m_WerewolfActionsCallbackInterface.OnEat;
+                @Eat.canceled -= m_Wrapper.m_WerewolfActionsCallbackInterface.OnEat;
             }
             m_Wrapper.m_WerewolfActionsCallbackInterface = instance;
             if (instance != null)
             {
-                @Newaction.started += instance.OnNewaction;
-                @Newaction.performed += instance.OnNewaction;
-                @Newaction.canceled += instance.OnNewaction;
+                @Eat.started += instance.OnEat;
+                @Eat.performed += instance.OnEat;
+                @Eat.canceled += instance.OnEat;
             }
         }
     }
@@ -279,9 +308,10 @@ public partial class @Controlls : IInputActionCollection2, IDisposable
     {
         void OnMove(InputAction.CallbackContext context);
         void OnJump(InputAction.CallbackContext context);
+        void OnRoar(InputAction.CallbackContext context);
     }
     public interface IWerewolfActions
     {
-        void OnNewaction(InputAction.CallbackContext context);
+        void OnEat(InputAction.CallbackContext context);
     }
 }

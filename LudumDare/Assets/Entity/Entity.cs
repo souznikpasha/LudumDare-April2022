@@ -36,7 +36,7 @@ public class Entity : MonoBehaviour, IDamageable
         rb.velocity = new Vector2(rb.velocity.x, jumpForce);
     }
     
-    public void TakeDamage(int damage)
+    public virtual void TakeDamage(int damage)
     {
         if (hp > 0)
         {
@@ -46,7 +46,7 @@ public class Entity : MonoBehaviour, IDamageable
         }
     }
 
-    void Die()
+  protected virtual void Die()
     {
         Destroy(this);
     }
