@@ -78,7 +78,7 @@ public class Player : Entity
 
     void GetHorizontalDir(float dir)
     {
-        if(_onGround)
+        //if(_onGround)
             _horizontalDir = dir;
     }
     private void ChangeState()
@@ -88,7 +88,7 @@ public class Player : Entity
        else
            Controll.Werewolf.Enable();
    }
-
+    
     public void SetMoonState(bool underMoon)
     {
         if (underMoon)
@@ -100,7 +100,19 @@ public class Player : Entity
             //smth else
         }
     }
-   void Update()
+
+    protected override void Move(float x)
+    {
+        if(_onGround)
+            rb.velocity = new Vector2(x * speed, rb.velocity.y);
+        else
+        {
+            rb.velocity = new Vector2(rb.velocity.x + x*speed*Time.deltaTime, rb.velocity.y);
+        }
+        
+    }
+
+    void Update()
    {
       _onGround = OnGround(_collider.size.y / 2);
        Move(_horizontalDir);
