@@ -89,9 +89,16 @@ public class Player : Entity
            Controll.Werewolf.Enable();
    }
 
-    public void SetMoon()
+    public void SetMoonState(bool underMoon)
     {
-        _werewolfPercent++;
+        if (underMoon)
+        {
+            //smth
+        }
+        else
+        {
+            //smth else
+        }
     }
    void Update()
    {
