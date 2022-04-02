@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEditor.Experimental.GraphView;
@@ -11,11 +12,11 @@ public class Entity : MonoBehaviour, IDamageable
     [SerializeField] protected LayerMask groundLayer;
 
     protected Rigidbody2D rb;
-    protected Animator animator;
+    protected bool onGround;
+    private CircleCollider2D c;
     protected virtual void Start()
     {
         rb = GetComponent<Rigidbody2D>();
-        animator = GetComponent<Animator>();
     }
     protected virtual void Move(float x)
     {
