@@ -89,7 +89,7 @@ public class Player : Entity
            Controll.Werewolf.Enable();
    }
 
-    public void AddWerewolfPower()
+    public void SetMoon()
     {
         _werewolfPercent++;
     }
