@@ -15,7 +15,7 @@ public class Player : Entity
     private float _horizontalDir;
     private CapsuleCollider2D _collider;
     private float _activeJumpForce;
-    private bool _onGround;
+
     private int _werewolfPercent = 0;
     private void Awake()
     {
@@ -57,7 +57,7 @@ public class Player : Entity
 
     void StartJump()
     {
-        if (_onGround)
+        if (onGround)
         {
             _activeJumpForce = jumpForce;
         }
@@ -103,7 +103,7 @@ public class Player : Entity
 
     protected override void Move(float x)
     {
-        if(_onGround)
+        if(onGround)
             rb.velocity = new Vector2(x * speed, rb.velocity.y);
         else
         {
@@ -114,7 +114,7 @@ public class Player : Entity
 
     void Update()
    {
-      _onGround = OnGround(_collider.size.y / 2);
+      onGround = OnGround(_collider.size.y / 2);
        Move(_horizontalDir);
         Jump();
    }
