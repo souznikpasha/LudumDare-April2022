@@ -17,7 +17,7 @@ public class CleverEntity : Entity
         target = Player.Instance.transform;
 
    }
-    //asdfasdf
+  
     protected bool CanSeeTarget()
     {
         var hit = Physics2D.Raycast(transform.position,  target.transform.position - transform.position , lookDistance, ~ignoreLayer );
@@ -34,5 +34,6 @@ public class CleverEntity : Entity
     void Update()
     {
         seeTarget = CanSeeTarget();
+        
     }
 }
